@@ -15,10 +15,9 @@ const clerkWebhooks = async (req, res) => {
     const { data, type } = req.body;
     const userData = {
       _id: data.id,
-      username: `${data.first_name || ""} ${data.last_name || ""}`.trim(),
-      email: data.email_addresses?.[0]?.email_address,
-      image: data.image_url || "",
-      recentSearchedCities: [],
+      email: data.email_addresses[0].email_address,
+      username: data.first_name + " " + data.last_name,
+      image: data.image_url,
     };
     switch (type) {
       case "user.created": {
@@ -36,10 +35,10 @@ const clerkWebhooks = async (req, res) => {
       default:
         break;
     }
-    res.JSON({ success: true, message: "Webhook Recieved" });
+    res.json({ success: true, message: "Webhook Recieved" });
   } catch (error) {
     console.log(error.message);
-    res.JSON({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
